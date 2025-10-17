@@ -10,6 +10,9 @@ services:
       - "5000:5000"
     env_file:
       - ./backend/.env.docker
+    depends_on:
+      - mongo
+      - redis
     restart: always
     networks:
       - app-network
@@ -28,6 +31,29 @@ services:
     restart: always
     networks:
       - app-network
+
+  mongo:
+    image: mongo:6
+    container_name: mongo
+    volumes:
+      - mongo_data:/data/db
+    ports:
+      - "27017:27017"
+    restart: always
+    networks:
+      - app-network
+
+  redis:
+    image: redis:alpine
+    container_name: redis
+    ports:
+      - "6379:6379"
+    restart: always
+    networks:
+      - app-network
+
+volumes:
+  mongo_data:
 
 networks:
   app-network:
