@@ -72,5 +72,11 @@ pipeline {
             }
         }
 
-    } 
+    } // end of stages
+
+    post {
+        always {
+            archiveArtifacts artifacts: 'trivy-fs-report.html, **/dependency-check-report.xml', allowEmptyArchive: true
+        }
+    }
 }
